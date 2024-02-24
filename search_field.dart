@@ -34,12 +34,10 @@ class SearchField extends StatelessWidget {
       },
       onChanged: (value) {
         // API will be called after a delay
-        if (timer == null || _searchController.text.isEmpty) {
-          onSearchService(searchKey: _searchController.text);
-          timer = Timer(const Duration(milliseconds: 300), () {
-            timer = null;
-          });
-        }
+        timer?.cancel();
+        timer = Timer(const Duration(milliseconds: 500), () async {
+          await onSearchService(searchKey: _searchController.text);
+        });
       },
       scrollPadding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
